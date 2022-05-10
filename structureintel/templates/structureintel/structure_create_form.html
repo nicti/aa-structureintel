@@ -1,0 +1,80 @@
+{% extends "structureintel/base.html" %}
+{% load bootstrap %}
+{% load static %}
+{% load i18n %}
+
+{% block details %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form role="form" action="" method="POST">
+                    {% csrf_token %}
+                    {{ form|bootstrap }}
+                    <a href="{% url 'structureintel:index' %}" class="btn btn-default">Cancel</a>
+                    <button type="submit" class="btn btn-success pull-right">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock details %}
+
+{% block extra_css %}
+    <link href="{% static 'structureintel/vendor/select2/select2.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'structureintel/vendor/select2-bootstrap-theme/select2-bootstrap.min.css' %}" rel="stylesheet" />
+    <style>
+        .form-group.required label:after {
+            content:"*";
+            color:red;
+        }
+        .select2-dropdown {
+            color: rgb(44, 62, 80);
+        }
+        #fitting {
+            resize: vertical;
+        }
+        .fa-asterisk {
+            color: salmon;
+            font-size: 0.75rem;
+            vertical-align: top;
+        }
+
+    </style>
+{% endblock extra_css %}
+
+{% block extra_javascript %}
+    <script type="application/javascript" src="{% static 'structureintel/vendor/select2/select2.min.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('select2:open', () => {
+                document.querySelector('.select2-search__field').focus();
+              });
+            $('#id_eve_solar_system_2').select2({
+                ajax: {
+                    url: '{% url 'structureintel:solar_system' %}',
+                    dataType: 'json',
+                    processResults: function (data) {
+                        return {
+                          results: data.data
+                        };
+                      }
+                },
+                theme: "bootstrap"
+            })
+            $('#id_eve_structure_type_2').select2({
+                ajax: {
+                    url: '{% url 'structureintel:structures' %}',
+                    dataType: 'json',
+                    processResults: function (data) {
+                        return {
+                          results: data.data
+                        };
+                      }
+                },
+                theme: "bootstrap"
+            })
+            $('#reinforcement').select2({
+                theme: "bootstrap"
+            })
+        })
+    </script>
+{% endblock extra_javascript %}

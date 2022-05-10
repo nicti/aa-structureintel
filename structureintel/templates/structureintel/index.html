@@ -1,0 +1,124 @@
+{% extends 'structureintel/base.html' %}
+{% load i18n %}
+{% load bootstrap %}
+{% load static %}
+{% load humanize %}
+
+{% block details %}
+
+    <span class="pull-right" style="margin-bottom: 5px;">
+        <a href="{% url 'structureintel:add_structure' %}" class="btn btn-success">Add structure</a>
+
+    </span>
+
+    <table id="structureintel--table" style="width:100%" class="table table-striped table-compact">
+        <thead>
+            <th>{% translate "Location"%}</th>
+            <th></th>
+            <th>{% translate "Type" %}</th>
+            <th>{% translate "Name & Owner" %}</th>
+            <th>{% translate "Services" %}</th>
+            <th>{% translate "Power" %}</th>
+            <th>{% translate "R-Hour" %}</th>
+            <th></th>
+        </thead>
+    </table>
+
+    <div class="modal" id="modalStructureDetails" tabindex="-1" role="dialog" aria-labelledby="{% translate 'modalStructureDetails '%}">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" id="modalStructureDetailsContent">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Loading...</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_javascript %}
+{% include 'bundles/datatables-js.html' %}
+<script type="application/javascript" src="{% static 'js/filterDropDown/filterDropDown.min.js' %}"></script>
+<script type="application/javascript">
+$(document).ready(function () {
+    $('#modalStructureDetails').on('show.bs.modal', function(event) {
+        $(this).find('.modal-title').html('Loading...');
+        {% if NIGHT_MODE %}
+            $(this).find('.modal-body').html('<img src="{% static "structureintel/img/Spinner-1s-64px-dark.gif" %}">');
+        {% else %}
+            $(this).find('.modal-body').html('<img src="{% static "structureintel/img/Spinner-1s-64px-light.gif" %}">');
+        {% endif %}
+
+        const button = $(event.relatedTarget);
+        const ajax_url = button.data('ajax_url');
+        $("#modalStructureDetailsContent").load(
+            ajax_url, null, (response, status, xhr) => {
+                if (status != 'success') {
+                    $(this).find('.modal-title').html('Error');
+                    $(this).find('.modal-body').html(
+                        `<p class="text-danger">${xhr.status} ${xhr.statusText}</p>`
+                    );
+                }
+            }
+        );
+    });
+
+    $('#structureintel--table').DataTable({
+        ajax: {
+            url: "{% url 'structureintel:structureintel_list_data' %}",
+            dataSrc: 'data',
+            cache: false
+        },
+        columns: [
+            { data: 'location' },
+            { data: 'type_icon', width: "40px" },
+            { data: 'type' },
+            { data: 'structure_name' },
+            { data: 'services' },
+            { data: 'power' },
+            { data: 'reinforcement' },
+            { data: 'actions'}
+        ],
+        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        columnDefs: [
+                    { "sortable": false, "targets": [ 1, 6 ] },
+        ],
+        bootstrap: true,
+        filterDropDown:
+        {
+            columns: [
+                {
+                    idx: 2,
+                    title: "{% translate 'Structure' %}"
+                },
+                {
+                    idx: 5,
+                    title: "{% translate 'State' %}"
+                }
+            ]
+        }
+    });
+})
+
+</script>
+{% endblock %}
+
+{% block extra_css %}
+{% include 'bundles/datatables-css.html' %}
+<style>
+#structureintel--table_filter {
+    text-align: right;
+}
+#structureintel--table tbody td, #structureintel--table thead th {
+    text-align: center;
+    vertical-align: middle;
+    word-wrap: break-word;
+}
+</style>
+{% endblock %}
+
+{% block extra_script %}
+{% endblock %}

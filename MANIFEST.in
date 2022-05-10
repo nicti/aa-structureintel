@@ -1,0 +1,5 @@
+include LICENSE
+include README.md
+recursive-include structureintel *.py
+recursive-include structureintel/static *
+recursive-include structureintel/templates *

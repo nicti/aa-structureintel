@@ -42,9 +42,11 @@ class StructureSerializer:
                 solar_system_url(structure.eve_solar_system.id),
                 structure.eve_solar_system.name,
                 "https://evemaps.dotlan.net/map/"
-                + structure.eve_solar_system.eve_constellation.eve_region.name
+                + str(
+                    structure.eve_solar_system.eve_constellation.eve_region.name
+                ).replace(" ", "_")
                 + "/"
-                + structure.eve_solar_system.name,
+                + str(structure.eve_solar_system.name).replace(" ", "_"),
                 structure.eve_solar_system.eve_constellation.eve_region.name,
             ),
             "type_icon": format_html(

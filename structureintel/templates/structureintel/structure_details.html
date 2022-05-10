@@ -89,7 +89,7 @@
             {% endfor %}
         {% endif %}
         <li class="list-group-item list-group-item-custom">Medium Slots</li>
-        {% if assets.HiSlot %}
+        {% if assets.MedSlot %}
             {% for slot in assets.MedSlot %}
                 <li class="list-group-item">
                     <img src="{{ slot.id|type_icon_url:128 }}" style="height: 32px; width: 32px;" title="{{ slot.name }}">
@@ -98,7 +98,7 @@
             {% endfor %}
         {% endif %}
         <li class="list-group-item list-group-item-custom">Low Slots</li>
-        {% if assets.HiSlot %}
+        {% if assets.LoSlot %}
             {% for slot in assets.LoSlot %}
                 <li class="list-group-item">
                     <img src="{{ slot.id|type_icon_url:128 }}" style="height: 32px; width: 32px;" title="{{ slot.name }}">
@@ -107,7 +107,7 @@
             {% endfor %}
         {% endif %}
         <li class="list-group-item list-group-item-custom">Rig Slots</li>
-        {% if assets.HiSlot %}
+        {% if assets.RigSlot %}
             {% for slot in assets.RigSlot %}
                 <li class="list-group-item">
                     <img src="{{ slot.id|type_icon_url:128 }}" style="height: 32px; width: 32px;" title="{{ slot.name }}">
@@ -116,7 +116,7 @@
             {% endfor %}
         {% endif %}
         <li class="list-group-item list-group-item-custom">Service Slots</li>
-        {% if assets.HiSlot %}
+        {% if assets.SerSlot %}
             {% for slot in assets.SerSlot %}
                 <li class="list-group-item">
                     <img src="{{ slot.id|type_icon_url:128 }}" style="height: 32px; width: 32px;" title="{{ slot.name }}">

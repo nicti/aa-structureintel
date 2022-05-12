@@ -80,11 +80,16 @@ $(document).ready(function () {
             { data: 'services' },
             { data: 'power' },
             { data: 'reinforcement' },
-            { data: 'actions'}
+            { data: 'actions'},
+            /* hidden */
+            { data: 'system_name'},
+            { data: 'constellation_name'},
+            { data: 'region_name'}
         ],
         lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         columnDefs: [
                     { "sortable": false, "targets": [ 1, 6 ] },
+                    { "visible": false, "targets": [8, 9, 10] }
         ],
         bootstrap: true,
         filterDropDown:
@@ -97,6 +102,18 @@ $(document).ready(function () {
                 {
                     idx: 5,
                     title: "{% translate 'State' %}"
+                },
+                {
+                    idx: 8,
+                    title: "{% translate 'Solar system' %}"
+                },
+                {
+                    idx: 9,
+                    title: "{% translate 'Constellation' %}"
+                },
+                {
+                    idx: 10,
+                    title: "{% translate 'Region' %}"
                 }
             ]
         }

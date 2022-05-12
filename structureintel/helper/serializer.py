@@ -61,6 +61,9 @@ class StructureSerializer:
             "power": structure.get_power_mode_display(),
             "reinforcement": "{:02d}:00".format(structure.reinforce_hour),
             "actions": actions,
+            "system_name": structure.eve_solar_system.name,
+            "constellation_name": structure.eve_solar_system.eve_constellation.name,
+            "region_name": structure.eve_solar_system.eve_constellation.eve_region.name,
         }
 
 
